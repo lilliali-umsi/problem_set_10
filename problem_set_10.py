@@ -144,8 +144,25 @@ def get_data(baseurl, resource= "", params ={}):
     response = requests.get(baseurl+resource, params).json()
     return response
 
-def search_swapi():
-    pass
+def search_swapi(resource, query):
+    """Call function <get_data> and search SWAPI for the <query> string given a <resource>
+    parameters:
+        resource (str): a specific identifier that specifies the resource
+        query (str): a query string to search for
+    
+    returns:
+        dict: a dictionary that is the result of the query
+    description:
+        This function should use the "search" functionality of SWAPI to search for the <query> string
+        given a <resource>. In other words, you might want to search for a query of "luke" in the
+        resource "people/". This function should make a call to <get_data> to accomplish this goal.
+   """
+    baseurl = 'https://swapi.co/api'
+    root = '/'
+    resource = root + resource + root
+    params = {'search': query}
+    call = get_data(baseurl, resource, params)
+    return call
 
 
 def get_information_on_characters():
@@ -172,10 +189,10 @@ test1 = get_data('https://swapi.co/api/',resource='people',params={'search':'yod
 print(f"\nTest for <get_data>: {test1}")
 
     ##### tests for <search_swapi>...uncomment the below four lines when you are ready!
-    # test2 = search_swapi('people','yoda')['results'][0]['mass']=='17'
-    # test3 = search_swapi('starships','tie')['results'][0]['crew']=='1'
-    # print(f"\nTest #1 for <search_swapi>: {test2}")
-    # print(f"Test #2 for <search_swapi>: {test3}")
+test2 = search_swapi('people','yoda')['results'][0]['mass']=='17'
+test3 = search_swapi('starships','tie')['results'][0]['crew']=='1'
+print(f"\nTest #1 for <search_swapi>: {test2}")
+print(f"Test #2 for <search_swapi>: {test3}")
 
     ##### test for <get_information_on_characters>...uncomment the below two lines when you are ready!
     # test4 = get_information_on_characters(search_swapi('people','skywalker')['results'])['Shmi Skywalker']['birth_year']=='72BBY'
