@@ -165,11 +165,12 @@ def search_swapi(resource, query):
 
 def get_information_on_characters(list_of_characters):
     """Returns a nested dictionary from the dictionary returned from the function search_swapi
-        with the characters and their information.
+        with the characters, their name, birth year, species, and homeworld.
         Parameters:
             list_of_characters (dict): dictionary returned from search_swapi().
         Returns:
-            nested dictionary (dict): nested dictionary containing the value to the key 'results' 
+            nested dictionary (dict): nested dictionary containing the values name, birth year,
+            species, and home world
     description:
         Given a result set of characters from a SWAPI query, return a nested dictionary
         of the character name, birth year, and species name. In other words, <list_of_characters>
@@ -199,9 +200,11 @@ def get_information_on_characters(list_of_characters):
                 del value[k]
         for k, v in value.items():
             if k =='species':
-                value[k] =get_data(v[0])['name']
+                value['species_name'] =get_data(v[0])['name']
+                del value[k]
             if k =='homeworld':
-                value[k] = get_data(v)['name']
+                value['homeworld_name'] = get_data(v)['name']
+                del value[k]
                 
             
             
