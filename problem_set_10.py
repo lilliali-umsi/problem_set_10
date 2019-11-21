@@ -169,23 +169,9 @@ def get_information_on_characters(list_of_characters):
         Parameters:
             list_of_characters (dict): dictionary returned from search_swapi().
         Returns:
-            nested dictionary (dict): nested dictionary containing the values name, birth year,
-            species, and home world
-    description:
-        Given a result set of characters from a SWAPI query, return a nested dictionary
-        of the character name, birth year, and species name. In other words, <list_of_characters>
-        should be a list structured like the value to the key 'results' from the dictionary that
-        is returned from <search_swapi>.
-    returns:
-        This function should return a nested dictionary in the following form:
-        {
-            <character name> :
-                {
-                    'name' : <character name>
-                    'birth_year' : <birth year of the character>
-                    'species_name' : <name of the species of the character>
-                    'homeworld_name' : <name of the homeworld of the character>
-                }"""
+            nested dictionary (dict): nested dictionary containing the key name, and the values 
+            name, birth year, species, and home world
+   """
     #return list_of_characters
     nested_dict = {}
     person_keys = ('name', 'birth_year', 'species', 'homeworld')
@@ -208,23 +194,24 @@ def get_information_on_characters(list_of_characters):
                 
             
             
-            """if key == 'name':
-                nested_dict['name'] = value
-            if key == 'birth_year':
-                nested_dict['birth_year'] = value
-            if key == 'species':
-                nested_dict['species'] = get_data(value)[0]['name']
-            if key == 'homeworld':
-                nested_dict['homeworld'] = get_data(value)[0]['name']"""
+          
            
     return nested_dict
 
-#print(search_swapi('people','skywalker')['results'])
 
 
 
-def write_json():
-    pass
+def write_json(filename, data):
+    """Takes <data> and writes to a .json file specified by <filename>
+    parameters:
+        filename (str):
+        data (json-able object, e.g. nested dictionary or list):
+    returns:
+        None
+    """
+    with open(filepath, 'w') as file_obj:
+        json.dump(data, file_obj)
+
 
 
 def main():
