@@ -140,8 +140,10 @@ def get_data(baseurl, resource= "", params ={}):
     returns:
         dict: dictionary representation of the decoded JSON.
     """
-
-    response = requests.get(baseurl+resource, params).json()
+    if resource:
+        response = requests.get(baseurl+resource, params).json()
+    else:
+        response = requests.get(baseurl, params).json()
     return response
 
 def search_swapi(resource, query):
@@ -152,10 +154,6 @@ def search_swapi(resource, query):
     
     returns:
         dict: a dictionary that is the result of the query
-    description:
-        This function should use the "search" functionality of SWAPI to search for the <query> string
-        given a <resource>. In other words, you might want to search for a query of "luke" in the
-        resource "people/". This function should make a call to <get_data> to accomplish this goal.
    """
     baseurl = 'https://swapi.co/api'
     root = '/'
@@ -165,8 +163,61 @@ def search_swapi(resource, query):
     return call
 
 
-def get_information_on_characters():
-    pass
+def get_information_on_characters(list_of_characters):
+    """Returns a nested dictionary from the dictionary returned from the function search_swapi
+        with the characters and their information.
+        Parameters:
+            list_of_characters (dict): dictionary returned from search_swapi().
+        Returns:
+            nested dictionary (dict): nested dictionary containing the value to the key 'results' 
+    description:
+        Given a result set of characters from a SWAPI query, return a nested dictionary
+        of the character name, birth year, and species name. In other words, <list_of_characters>
+        should be a list structured like the value to the key 'results' from the dictionary that
+        is returned from <search_swapi>.
+    returns:
+        This function should return a nested dictionary in the following form:
+        {
+            <character name> :
+                {
+                    'name' : <character name>
+                    'birth_year' : <birth year of the character>
+                    'species_name' : <name of the species of the character>
+                    'homeworld_name' : <name of the homeworld of the character>
+                }"""
+    #return list_of_characters
+    nested_dict = {}
+    person_keys = ('name', 'birth_year', 'species', 'homeworld')
+    url_keys = ('species', 'homeworld')
+    for item in list_of_characters:
+        for key, value in item.items():
+            if key == 'name':
+                nested_dict[value] = item
+    for key, value in nested_dict.items():
+        for k, v in list(value.items()):
+            if k not in person_keys:
+                del value[k]
+        for k, v in value.items():
+            if k =='species':
+                value[k] =get_data(v[0])['name']
+            if k =='homeworld':
+                value[k] = get_data(v)['name']
+                
+            
+            
+            """if key == 'name':
+                nested_dict['name'] = value
+            if key == 'birth_year':
+                nested_dict['birth_year'] = value
+            if key == 'species':
+                nested_dict['species'] = get_data(value)[0]['name']
+            if key == 'homeworld':
+                nested_dict['homeworld'] = get_data(value)[0]['name']"""
+           
+    return nested_dict
+
+#print(search_swapi('people','skywalker')['results'])
+
 
 
 def write_json():
@@ -185,17 +236,18 @@ if __name__ == '__main__':
     main()
 
     ##### test for <get_data>...uncomment the below two lines when you are ready!
-test1 = get_data('https://swapi.co/api/',resource='people',params={'search':'yoda'})['results'][0]['mass']=='17'
-print(f"\nTest for <get_data>: {test1}")
+#test1 = get_data('https://swapi.co/api/',resource='people',params={'search':'yoda'})['results'][0]['mass']=='17'
+#print(f"\nTest for <get_data>: {test1}")
 
     ##### tests for <search_swapi>...uncomment the below four lines when you are ready!
-test2 = search_swapi('people','yoda')['results'][0]['mass']=='17'
-test3 = search_swapi('starships','tie')['results'][0]['crew']=='1'
-print(f"\nTest #1 for <search_swapi>: {test2}")
-print(f"Test #2 for <search_swapi>: {test3}")
+#test2 = search_swapi('people','yoda')['results'][0]['mass']=='17'
+#test3 = search_swapi('starships','tie')['results'][0]['crew']=='1'
+#print(f"\nTest #1 for <search_swapi>: {test2}")
+#print(f"Test #2 for <search_swapi>: {test3}")
 
     ##### test for <get_information_on_characters>...uncomment the below two lines when you are ready!
-    # test4 = get_information_on_characters(search_swapi('people','skywalker')['results'])['Shmi Skywalker']['birth_year']=='72BBY'
-    # print(f"\nTest for <get_information_on_characters>: {test4}")
+test4 = get_information_on_characters(search_swapi('people','skywalker')['results'])['Shmi Skywalker']['birth_year']=='72BBY'
+print(f"\nTest for <get_information_on_characters>: {test4}")
+""""""
 
 # END PROBLEM SET 10
