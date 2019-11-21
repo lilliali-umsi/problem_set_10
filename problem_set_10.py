@@ -209,14 +209,41 @@ def write_json(filename, data):
     returns:
         None
     """
-    with open(filepath, 'w') as file_obj:
+    with open(filename, 'w') as file_obj:
         json.dump(data, file_obj)
 
 
 
 def main():
-    pass
+    """Entry point to program. Writes a .json file for nested dictionary produced by 
+    <get_information_on_characters> for all characters in SWAPI that have "darth" in their 
+    name, a j.son file for nested dictionary produced by <get_information_on_characters> for 
+    all characters in SWAPI that have "skywalker" in their name.
+    Parameters:
+        None
+    Returns:
+        None 
+    description:
+        Use <search_swapi>, <get_information_on_characters>, and <write_json> to produce the following
+        .json files:
 
+        "darth_info.json":
+            - Contains the n
+
+        "skywalker_info.json":
+            - Contains the nested 
+
+        """
+    data = get_information_on_characters(search_swapi('people','skywalker')['results'])
+    write_json('skywalker_info.json', data)
+        
+"""tatooine_residents_info.json": <-- CHALLENGE
+            - Contains the nested dictionary produced by <get_information_on_characters> for all characters
+            in SWAPI that have are residents of "tatooine".
+            - HINT: You may want to use your <search_swapi> function with "planets" as the <resource> and
+            "tatooine" as the <query> here...and then you'll need to find the URLs of all the characters that
+            reside on Tatooine and save their information to a list for <get_information_on_characters> to use.
+"""
 
 # STOP CODING HERE! DO NOT MODIFY ANYTHING BELOW THIS LINE (except to comment/uncomment tests)!
 
