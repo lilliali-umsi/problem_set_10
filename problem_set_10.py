@@ -234,8 +234,10 @@ def main():
             - Contains the nested 
 
         """
-    data = get_information_on_characters(search_swapi('people','skywalker')['results'])
-    write_json('skywalker_info.json', data)
+    data_1 = get_information_on_characters(search_swapi('people','darth')['results'])
+    write_json('darth_info.json', data_1)
+    data_2 = get_information_on_characters(search_swapi('people','skywalker')['results'])
+    write_json('skywalker_info.json', data_2)
         
 """tatooine_residents_info.json": <-- CHALLENGE
             - Contains the nested dictionary produced by <get_information_on_characters> for all characters
