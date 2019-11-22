@@ -217,35 +217,28 @@ def write_json(filename, data):
 def main():
     """Entry point to program. Writes a .json file for nested dictionary produced by 
     <get_information_on_characters> for all characters in SWAPI that have "darth" in their 
-    name, a j.son file for nested dictionary produced by <get_information_on_characters> for 
-    all characters in SWAPI that have "skywalker" in their name.
+    name. Writesa .json file for nested dictionary produced by <get_information_on_characters> for 
+    all characters in SWAPI that have "skywalker" in their name. Writes a .json file for nested 
+    dictionary produced by <get_information_on_characters> for all characters in SWAPI that are
+    residents of Tatooine.
     Parameters:
         None
     Returns:
         None 
-    description:
-        Use <search_swapi>, <get_information_on_characters>, and <write_json> to produce the following
-        .json files:
-
-        "darth_info.json":
-            - Contains the n
-
-        "skywalker_info.json":
-            - Contains the nested 
-
         """
     data_1 = get_information_on_characters(search_swapi('people','darth')['results'])
     write_json('darth_info.json', data_1)
+
     data_2 = get_information_on_characters(search_swapi('people','skywalker')['results'])
     write_json('skywalker_info.json', data_2)
-        
-"""tatooine_residents_info.json": <-- CHALLENGE
-            - Contains the nested dictionary produced by <get_information_on_characters> for all characters
-            in SWAPI that have are residents of "tatooine".
-            - HINT: You may want to use your <search_swapi> function with "planets" as the <resource> and
-            "tatooine" as the <query> here...and then you'll need to find the URLs of all the characters that
-            reside on Tatooine and save their information to a list for <get_information_on_characters> to use.
-"""
+
+    tatooine_list = search_swapi('planets', 'tatooine')['results'][0]['residents']
+    tatooine_dict =[]
+    for item in tatooine_list:
+        tatooine_dict.append(get_data(item))
+    data_3 = get_information_on_characters(tatooine_dict)
+    write_json('tatooine_residents_info.json', data_3)
+
 
 # STOP CODING HERE! DO NOT MODIFY ANYTHING BELOW THIS LINE (except to comment/uncomment tests)!
 
@@ -265,8 +258,8 @@ if __name__ == '__main__':
 #print(f"Test #2 for <search_swapi>: {test3}")
 
     ##### test for <get_information_on_characters>...uncomment the below two lines when you are ready!
-test4 = get_information_on_characters(search_swapi('people','skywalker')['results'])['Shmi Skywalker']['birth_year']=='72BBY'
-print(f"\nTest for <get_information_on_characters>: {test4}")
+#test4 = get_information_on_characters(search_swapi('people','skywalker')['results'])['Shmi Skywalker']['birth_year']=='72BBY'
+#print(f"\nTest for <get_information_on_characters>: {test4}")
 """"""
 
 # END PROBLEM SET 10
